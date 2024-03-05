@@ -1,0 +1,6 @@
+Developer: "Uh boss... We got a problem"
+
+Boss: "You know our motto: there are no problems, only opportunities !"
+
+Developer: "Then I've got great news ! We have a DDoS opportunity !"
+

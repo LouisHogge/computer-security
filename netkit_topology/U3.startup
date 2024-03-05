@@ -1,0 +1,17 @@
+ip link set eth0 up
+ip address add 192.168.3.3/24 dev eth0
+
+ip route add default via 192.168.3.1
+
+useradd vlad
+cp -r /etc/skel /home/vlad
+chown -R vlad:vlad /home/vlad
+chmod go-w /home/vlad
+chmod 700 /home/vlad/.ssh
+chmod 700 /home/vlad/.ssh/id_rsa
+chmod 700 /home/vlad/.ssh/config
+
+echo "vlad:vlad" | chpasswd
+
+dpkg -i /root/rsync_3.0.3-2_i386.deb
+

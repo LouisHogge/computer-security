@@ -1,0 +1,47 @@
+ip link set eth0 up
+ip address add 172.31.6.5/24 dev eth0
+
+ip link set eth1 up
+ip address add 10.10.1.5/24 dev eth1
+
+route add -net 10.10.2.0/24 gw 10.10.1.1
+route add -net 192.168.1.0/24 gw 10.10.1.1
+route add -net 192.168.2.0/24 gw 10.10.1.1
+ip route add default via 172.31.6.1
+
+echo "Installation of the mail server"
+export DEBIAN_FRONTEND=noninteractive
+dpkg -i /root/libltdl3_1.5.26-4+lenny1_i386.deb
+dpkg -i --force-confold --force-confdef /root/libfam0_2.7.0-13.3+lenny1_i386.deb
+dpkg -i /root/courier-authlib_0.61.0-1+lenny1_i386.deb
+dpkg -i /root/courier-authlib-userdb_0.61.0-1+lenny1_i386.deb
+dpkg -i /root/courier-authdaemon_0.61.0-1+lenny1_i386.deb
+dpkg -i /root/courier-base_0.60.0-2_i386.deb
+dpkg -i /root/courier-imap_4.4.0-2_i386.deb
+dpkg -i /root/courier-ssl_0.60.0-2_i386.deb
+dpkg -i /root/courier-imap-ssl_4.4.0-2_i386.deb
+
+/etc/init.d/courier-imap start
+/etc/init.d/exim4 start
+
+useradd vlad
+useradd donald
+useradd webteam
+useradd deskteam
+echo "vlad:vlad" | chpasswd
+echo "donald:donald" | chpasswd
+echo "webteam:webteam" | chpasswd
+echo "deskteam:deskteam" | chpasswd
+cp -r /etc/skel /home/vlad
+cp -r /etc/skel /home/donald
+cp -r /etc/skel /home/webteam
+cp -r /etc/skel /home/deskteam
+maildirmake /home/vlad/Maildir
+maildirmake /home/donald/Maildir
+maildirmake /home/webteam/Maildir
+maildirmake /home/deskteam/Maildir
+chown -R vlad:vlad /home/vlad
+chown -R donald:donald /home/donald
+chown -R webteam:webteam /home/webteam
+chown -R deskteam:deskteam /home/deskteam
+

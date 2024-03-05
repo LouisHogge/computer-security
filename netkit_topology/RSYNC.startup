@@ -1,0 +1,29 @@
+ip link set eth0 up
+ip address add 10.10.3.3/24 dev eth0
+
+ip route add default via 10.10.3.1
+
+useradd vlad
+cp -r /etc/skel /home/vlad
+chown -R vlad:vlad /home/vlad
+chmod go-w /home/vlad
+chmod 700 /home/vlad/.ssh
+chmod 600 /home/vlad/.ssh/authorized_keys
+
+useradd webteam
+cp -r /etc/skel /home/webteam
+chown -R webteam:webteam /home/webteam
+chmod go-w /home/webteam
+chmod 700 /home/webteam/.ssh
+chmod 600 /home/webteam/.ssh/authorized_keys
+
+echo "vlad:vlad" | chpasswd
+echo "webteam:webteam" | chpasswd
+
+/etc/init.d/ssh start
+
+dpkg -i /root/rsync_3.0.3-2_i386.deb
+cp /root/rsync /etc/default/
+
+chmod 600 /etc/rsyncd.secrets
+/etc/init.d/rsync start

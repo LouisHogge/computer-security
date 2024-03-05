@@ -1,0 +1,10 @@
+ip link set eth0 up
+ip address add 10.10.3.2/24 dev eth0
+
+ip route add default via 10.10.3.1
+
+sysctl fs.nfs.nlm_tcpport=2047
+sysctl fs.nfs.nlm_udpport=2047
+
+/etc/init.d/nfs-common restart
+/etc/init.d/nfs-kernel-server restart

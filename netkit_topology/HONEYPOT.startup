@@ -1,0 +1,27 @@
+ip link set eth0 up
+ip address add 192.168.3.2/24 dev eth0
+
+ip route add default via 192.168.3.1
+
+/etc/init.d/nfs-common start
+mount /home/sharing
+
+useradd vlad
+cp -r /etc/skel /home/vlad
+chown -R vlad:vlad /home/vlad
+chmod go-w /home/vlad
+chmod 700 /home/vlad/.ssh
+chmod 600 /home/vlad/.ssh/authorized_keys
+
+useradd donald
+cp -r /etc/skel /home/donald
+chown -R donald:donald /home/donald
+chmod go-w /home/donald
+chmod 700 /home/donald/.ssh
+chmod 600 /home/donald/.ssh/authorized_keys
+
+echo "vlad:vlad" | chpasswd
+echo "donald:donald" | chpasswd
+
+/etc/init.d/ssh start
+

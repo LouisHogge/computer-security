@@ -1,0 +1,17 @@
+ip link set eth0 up
+ip address add 192.168.200.2/24 dev eth0
+
+ip link set eth1 up
+ip address add 172.32.3.1/24 dev eth1
+
+ip link set eth2 up
+ip address add 172.32.4.1/24 dev eth2
+
+route add -net 172.32.5.0/24 gw 172.32.4.100
+
+iptables -A FORWARD -i eth2 -s 172.31.0.0/16 -j DROP
+
+iptables -t nat -A POSTROUTING -j SNAT -o eth0 --to-source 192.168.200.2
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+

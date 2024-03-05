@@ -1,0 +1,10 @@
+-> openssl: generate server certificate based on config in PWEB/root/openssl.cnf
+- reuse private key (in /etc/apache2/server.key or /etc/ssl/private/server.pem)
+- PWEB/etc/apache2/server.crt (certificate)
+
+DT/etc/ssl/certs/ca-certificates.crt (= PWEB/etc/apache2/server.crt)
+MAIL/etc/courier/imapd.pem (= PWEB/etc/ssl/private/server.pem + PWEB/etc/apache2/server.crt)
+MAIL/etc/exim4/exim.crt (= PWEB/etc/apache2/server.crt)
+MAIL/etc/exim4/exim.key (= PWEB/etc/ssl/private/server.pem)
+U1/etc/ssl/certs/ca-certificates.crt (= PWEB/etc/apache2/server.crt)
+U2/etc/ssl/certs/ca-certificates.crt (= PWEB/etc/apache2/server.crt)

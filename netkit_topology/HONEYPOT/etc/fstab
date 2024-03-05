@@ -1,0 +1,2 @@
+# UNCONFIGURED FSTAB FOR BASE SYSTEM
+10.10.3.2:/home/sharing /home/sharing nfs user,timeo=20,retrans=1,soft 0 0

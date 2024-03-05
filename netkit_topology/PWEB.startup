@@ -1,0 +1,23 @@
+ip link set eth0 up
+ip address add 172.32.5.2/24 dev eth0
+
+ip route add default via 172.32.5.1
+
+echo "Starting HTTP(S) server"
+cp /root/httpd.conf /etc/apache2/
+/etc/init.d/apache2 start
+
+useradd webteam
+echo "webteam:webteam" | chpasswd
+
+chown -R webteam:webteam /home/webteam
+chmod go-w /home/webteam
+chmod 700 /home/webteam/.ssh
+chmod 600 /home/webteam/.ssh/authorized_keys
+
+chown -R webteam:webteam /var/www
+
+/etc/init.d/ssh start
+
+iptables -A INPUT -s 172.31.5.4 -j DROP
+iptables -A INPUT -s 172.31.6.6 -j DROP
